@@ -1,0 +1,31 @@
+version: "2"
+services:
+    webserver:
+        container_name: apacheserver
+        build: /home/nwright/test
+        ports: 
+            - "8080:80"
+#        volumes:
+#            - ./www:/var/www/html/
+        links:
+            - database
+        networks:
+            - default
+    database:
+        container_name: mysqlserver
+        image: mysql
+        ports: 
+            - "3306:3306"
+            - "33060:33060"
+        environment:
+            MYSQL_DATABASE: cloudproject
+            MYSQL_USER: pma
+            MYSQL_PASSWORD: blue
+            MYSQL_ROOT_PASSWORD: blue
+        volumes:
+            - /home/nwright/composer:/docker-entrypoint-initdb.d
+           # - persistent:/var/lib/mysql
+        networks:
+            - default
+ #    volumes:
+ #           - idtable.sql:/docker-entrypoint-initb.d
